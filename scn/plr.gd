@@ -11,6 +11,8 @@ var is_jumping = false:
 var jumpanim = false
 var lastfloor = false
 var jhold = 0.0
+var maxspdbase = 600
+
 
 func _process(delta: float) -> void:
 	reflect()
@@ -28,6 +30,8 @@ func reflect():
 		$anim2.visible = false
 
 func _physics_process(delta: float) -> void:
+	if maxspd != maxspdbase:
+		maxspd = move_toward(maxspd, maxspdbase, 300 * get_process_delta_time())
 	if not is_on_floor():
 		velocity.y += grav * delta
 	var dir = 0.0
@@ -39,10 +43,19 @@ func _physics_process(delta: float) -> void:
 		if is_jumping:
 			is_jumping = false
 		lastfloor = true
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		is_jumping = true
-		velocity.y = -400
-		jhold = 0.3
+	if Input.is_action_just_pressed("ui_accept"):
+		if is_on_floor():
+			is_jumping = true
+			velocity.y = -400
+			jhold = 0.3
+		if $left.is_colliding() and !$right.is_colliding() and velocity.x < 0:
+			maxspd = 1100.0
+			velocity.y -= 500
+			velocity.x -= 1100
+		elif $right.is_colliding() and !$left.is_colliding() and velocity.x > 0:
+			maxspd = 1100.0
+			velocity.x += 500
+			velocity.y -= 1100
 	if Input.is_action_pressed("ui_accept") and jhold > 0:
 		velocity.y -= 900 * jhold * get_physics_process_delta_time()
 		jhold -= get_physics_process_delta_time()
