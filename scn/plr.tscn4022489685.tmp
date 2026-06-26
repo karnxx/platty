@@ -288,10 +288,3 @@ sprite_frames = SubResource("SpriteFrames_1grll")
 animation = &"idle"
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=353651818]
-target_position = Vector2(0, 150)
-collision_mask = 128
-
-[node name="left" type="RayCast2D" parent="." unique_id=3691545]
-position = Vector2(-14, 0)
-target_position = Vector2(0, 30)
-collision_mask = 128

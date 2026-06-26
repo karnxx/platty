@@ -4,12 +4,33 @@
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_4trdi"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jcfkv"]
+
 [node name="world" type="Node2D" unique_id=1512677012]
 
-[node name="floor" type="StaticBody2D" parent="." unique_id=1684762658]
+[node name="flr" type="StaticBody2D" parent="." unique_id=1684762658]
+collision_layer = 129
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="floor" unique_id=1141723592]
+[node name="flr" type="CollisionShape2D" parent="flr" unique_id=1141723592]
 position = Vector2(0, 116)
 shape = SubResource("WorldBoundaryShape2D_4trdi")
 
 [node name="plr" parent="." unique_id=2028907528 instance=ExtResource("1_jcfkv")]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=332174821]
+position = Vector2(1, 23)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=573336208]
+position = Vector2(110, 59)
+shape = SubResource("RectangleShape2D_jcfkv")
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D" unique_id=1372675756]
+color = Color(0.24477637, 0.2447764, 0.24477637, 1)
+polygon = PackedVector2Array(100, 49, 100, 69, 120, 69, 120, 49)
+
+[node name="Polygon2D2" type="Polygon2D" parent="." unique_id=946170928]
+z_index = -1
+position = Vector2(-10417, -2507.5)
+scale = Vector2(95.7, 43.5)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(100, 49, 100, 69, 120, 69, 120, 49)
