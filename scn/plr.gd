@@ -21,7 +21,7 @@ func _process(delta: float) -> void:
 func reflect():
 	$anim2.flip_h = $anim.flip_h
 	$anim2.frame = $anim.frame
-	if $RayCast2D.is_colliding() and $RayCast2D.get_collider().name == 'flr':
+	if $RayCast2D.is_colliding() :
 		$anim2.visible = true
 		var point = $RayCast2D.get_collision_point()
 		var dist = $anim.global_position.distance_to(point)
