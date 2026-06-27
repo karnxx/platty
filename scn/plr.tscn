@@ -288,13 +288,36 @@ sprite_frames = SubResource("SpriteFrames_1grll")
 animation = &"idle"
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=353651818]
-target_position = Vector2(0, 150)
+target_position = Vector2(0, 240)
 collision_mask = 128
 
 [node name="left" type="RayCast2D" parent="." unique_id=1349616383]
-target_position = Vector2(-22, 28)
+target_position = Vector2(-47, 30)
 collision_mask = 64
 
 [node name="right" type="RayCast2D" parent="." unique_id=1747205102]
-target_position = Vector2(22, 28)
+target_position = Vector2(47, 30)
+collision_mask = 64
+
+[node name="ui" type="CanvasLayer" parent="." unique_id=1804201347]
+
+[node name="Label" type="Label" parent="ui" unique_id=1929277592]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -319.0
+offset_right = 319.0
+offset_bottom = 37.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 29
+text = "--BOOST--"
+horizontal_alignment = 1
+
+[node name="rightpred" type="RayCast2D" parent="." unique_id=1475996231]
+target_position = Vector2(46, 79)
+collision_mask = 64
+
+[node name="leftpred" type="RayCast2D" parent="." unique_id=56614634]
+target_position = Vector2(-46, 79)
 collision_mask = 64

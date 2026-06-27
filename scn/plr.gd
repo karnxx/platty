@@ -48,14 +48,22 @@ func _physics_process(delta: float) -> void:
 			is_jumping = true
 			velocity.y = -400
 			jhold = 0.3
-		if $left.is_colliding() and !$right.is_colliding() and velocity.x < 0:
-			maxspd = 1100.0
+	if $left.is_colliding() and velocity.x < 0 and !is_on_floor():
+		if Input.is_action_just_pressed("ui_accept"):
+			maxspd += 500
 			velocity.y -= 500
-			velocity.x -= 1100
-		elif $right.is_colliding() and !$left.is_colliding() and velocity.x > 0:
-			maxspd = 1100.0
+			velocity.x -= 900
+	elif $right.is_colliding() and velocity.x > 0 and !is_on_floor():
+		if Input.is_action_just_pressed("ui_accept"):
+			maxspd += 500
 			velocity.x += 500
-			velocity.y -= 1100
+			velocity.y -= 900
+	if $rightpred.is_colliding() and velocity.x > 0:
+		$ui/Label.visible = true
+	elif $leftpred.is_colliding() and velocity.x < 0:
+		$ui/Label.visible = true
+	else:
+		$ui/Label.visible = false
 	if Input.is_action_pressed("ui_accept") and jhold > 0:
 		velocity.y -= 900 * jhold * get_physics_process_delta_time()
 		jhold -= get_physics_process_delta_time()
