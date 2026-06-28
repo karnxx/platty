@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dd1v5pu2fse06"]
+
+[ext_resource type="Script" uid="uid://jisrnvvwl00o" path="res://scn/spikearea.gd" id="1_rf1tp"]
+
+[node name="spikearea" type="Area2D" unique_id=314514440]
+collision_layer = 0
+script = ExtResource("1_rf1tp")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

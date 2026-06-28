@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dcu602ov5qmrb"]
+
+[ext_resource type="Texture2D" uid="uid://d0fsbp37qksno" path="res://asset/tileset/platform.png" id="1_706o3"]
+[ext_resource type="Script" uid="uid://b1yd3ky2f2d4i" path="res://scn/dissapearing_plat.gd" id="1_qq6ff"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qq6ff"]
+size = Vector2(126, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_706o3"]
+size = Vector2(126, 11)
+
+[node name="dissapearing_plat" type="StaticBody2D" unique_id=970135595]
+collision_layer = 65
+script = ExtResource("1_qq6ff")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1812245235]
+texture = ExtResource("1_706o3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2066017098]
+position = Vector2(-1, -2)
+shape = SubResource("RectangleShape2D_qq6ff")
+one_way_collision = true
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2129366764]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=626345600]
+position = Vector2(-1, -7.5)
+shape = SubResource("RectangleShape2D_706o3")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

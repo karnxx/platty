@@ -13,6 +13,9 @@ var lastfloor = false
 var jhold = 0.0
 var maxspdbase = 600
 
+var lives = 5
+
+var gpounding = false
 
 func _process(delta: float) -> void:
 	reflect()
@@ -40,9 +43,16 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_pressed("ui_right"):
 		dir = 1.0
 	if is_on_floor():
+		
+		gpounding = false
 		if is_jumping:
 			is_jumping = false
 		lastfloor = true
+	if !is_on_floor() and Input.is_action_just_pressed("ui_down"):
+		maxspd += 200
+		velocity.y = 800
+		is_jumping = false
+		gpounding = true
 	if Input.is_action_just_pressed("ui_accept"):
 		if is_on_floor():
 			is_jumping = true
@@ -71,7 +81,7 @@ func _physics_process(delta: float) -> void:
 		jhold = 0.0
 		if velocity.y < 0:
 			velocity.y *= 0.5
-	if dir != 0.0:
+	if dir != 0.0 and !gpounding:
 		velocity.x += dir * accel * get_physics_process_delta_time()
 		velocity.x = clamp(velocity.x, -maxspd, maxspd)
 	else:
@@ -102,3 +112,7 @@ func animate():
 	elif velocity.x == 0 and !jumpanim and is_on_floor() and dira == false:
 		$anim.play("idle")
 		$anim2.animation = $anim.animation
+
+func get_dmged(dmg):
+	lives -= dmg
+	get_tree().reload_current_scene()

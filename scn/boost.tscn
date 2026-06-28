@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cjag7errmugew"]
+
+[ext_resource type="Texture2D" uid="uid://dler5hxay8nej" path="res://asset/tileset/boost.png" id="1_ciyhs"]
+[ext_resource type="Script" uid="uid://bpdbm2uh1kbxg" path="res://scn/boost.gd" id="1_nsblr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nsblr"]
+size = Vector2(32, 32)
+
+[node name="boost" type="Area2D" unique_id=911267439]
+collision_layer = 0
+script = ExtResource("1_nsblr")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=67176848]
+texture = ExtResource("1_ciyhs")
+vframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1662624092]
+shape = SubResource("RectangleShape2D_nsblr")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
