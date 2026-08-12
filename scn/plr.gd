@@ -14,8 +14,12 @@ var jhold = 0.0
 var maxspdbase = 600
 
 var lives = 5
+var coins = 0
 
 var gpounding = false
+
+var left_col = false
+var right_col = false
 
 func _process(delta: float) -> void:
 	reflect()
@@ -33,6 +37,7 @@ func reflect():
 		$anim2.visible = false
 
 func _physics_process(delta: float) -> void:
+	$ui/Label2.text = str(coins)
 	if maxspd != maxspdbase:
 		maxspd = move_toward(maxspd, maxspdbase, 300 * get_process_delta_time())
 	if not is_on_floor():
@@ -43,7 +48,6 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_pressed("ui_right"):
 		dir = 1.0
 	if is_on_floor():
-		
 		gpounding = false
 		if is_jumping:
 			is_jumping = false
@@ -58,16 +62,12 @@ func _physics_process(delta: float) -> void:
 			is_jumping = true
 			velocity.y = -400
 			jhold = 0.3
-	if $left.is_colliding() and velocity.x < 0 and !is_on_floor():
+	if left_col and velocity.x < 0 and !is_on_floor():
 		if Input.is_action_just_pressed("ui_accept"):
-			maxspd += 500
-			velocity.y -= 500
-			velocity.x -= 900
-	elif $right.is_colliding() and velocity.x > 0 and !is_on_floor():
+			boost('l')
+	elif right_col and velocity.x > 0 and !is_on_floor():
 		if Input.is_action_just_pressed("ui_accept"):
-			maxspd += 500
-			velocity.x += 500
-			velocity.y -= 900
+			boost('r')
 	if $rightpred.is_colliding() and velocity.x > 0:
 		$ui/Label.visible = true
 	elif $leftpred.is_colliding() and velocity.x < 0:
@@ -87,6 +87,18 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, friction * get_physics_process_delta_time())
 	move_and_slide()
+
+func boost(di):
+	if di == "l":
+		maxspd += 500
+		velocity.y -= 500
+		velocity.x -= 900
+	elif di == "r":
+		maxspd += 500
+		velocity.x += 500
+		velocity.y -= 900
+	elif di == "u":
+		velocity.y -= 700
 
 func jumpchanged(val):
 	if val == false:
@@ -116,3 +128,19 @@ func animate():
 func get_dmged(dmg):
 	lives -= dmg
 	get_tree().reload_current_scene()
+
+func _on_left_body_entered(body: Node2D) -> void:
+	if !body.is_in_group("plr"):
+		left_col = true
+
+func _on_right_body_entered(body: Node2D) -> void:
+	if !body.is_in_group("plr"):
+		right_col = true
+
+func _on_right_body_exited(body: Node2D) -> void:
+	if !body.is_in_group("plr"):
+		right_col = false
+
+func _on_left_body_exited(body: Node2D) -> void:
+	if !body.is_in_group("plr"):
+		left_col = false

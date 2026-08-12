@@ -6,7 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://cpm46qnuwbno6" path="res://asset/plr/unedit/male_hero_template-jump.png" id="3_ab04o"]
 [ext_resource type="Texture2D" uid="uid://bmys54ib1r41t" path="res://asset/plr/unedit/male_hero_template-run.png" id="4_ab04o"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_mbtrw"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_leilj"]
+height = 33.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ab04o"]
 atlas = ExtResource("1_an4ws")
@@ -152,7 +153,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_acseb")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fall",
 "speed": 6.0
 }, {
@@ -169,7 +170,7 @@ animations = [{
 "duration": 2.5,
 "texture": SubResource("AtlasTexture_y8hc5")
 }],
-"loop": false,
+"loop": 0,
 "name": &"fallend",
 "speed": 10.0
 }, {
@@ -204,7 +205,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6l0bn")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 10.0
 }, {
@@ -227,7 +228,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_d38ko")
 }],
-"loop": false,
+"loop": 0,
 "name": &"jump",
 "speed": 10.0
 }, {
@@ -262,23 +263,30 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_p1gph")
 }],
-"loop": true,
+"loop": 1,
 "name": &"run",
 "speed": 10.0
 }]
 
-[node name="plr" type="CharacterBody2D" unique_id=2028907528]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r3nmj"]
+size = Vector2(33, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1x3kl"]
+size = Vector2(32, 40)
+
+[node name="plr" type="CharacterBody2D" unique_id=2028907528 groups=["plr"]]
 script = ExtResource("1_acseb")
 
-[node name="col" type="CollisionShape2D" parent="." unique_id=1172206414]
-position = Vector2(0, 6)
-shape = SubResource("CircleShape2D_mbtrw")
+[node name="col" type="CollisionShape2D" parent="." unique_id=1234690972]
+position = Vector2(0, -0.5)
+shape = SubResource("CapsuleShape2D_leilj")
 
 [node name="anim" type="AnimatedSprite2D" parent="." unique_id=1853025715]
 sprite_frames = SubResource("SpriteFrames_1grll")
 animation = &"idle"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1419074104]
+zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true
 
 [node name="anim2" type="AnimatedSprite2D" parent="." unique_id=968858344]
@@ -292,14 +300,6 @@ animation = &"idle"
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=353651818]
 target_position = Vector2(0, 240)
 collision_mask = 128
-
-[node name="left" type="RayCast2D" parent="." unique_id=1349616383]
-target_position = Vector2(-18, 31)
-collision_mask = 64
-
-[node name="right" type="RayCast2D" parent="." unique_id=1747205102]
-target_position = Vector2(18, 31)
-collision_mask = 64
 
 [node name="ui" type="CanvasLayer" parent="." unique_id=1804201347]
 
@@ -316,10 +316,31 @@ theme_override_font_sizes/font_size = 29
 text = "--BOOST--"
 horizontal_alignment = 1
 
+[node name="Label2" type="Label" parent="ui" unique_id=1304244181]
+offset_right = 37.0
+offset_bottom = 28.0
+
 [node name="rightpred" type="RayCast2D" parent="." unique_id=1475996231]
-target_position = Vector2(46, 79)
+target_position = Vector2(37, 72)
 collision_mask = 64
 
 [node name="leftpred" type="RayCast2D" parent="." unique_id=56614634]
-target_position = Vector2(-46, 79)
+target_position = Vector2(-37, 72)
 collision_mask = 64
+
+[node name="left" type="Area2D" parent="." unique_id=62250248]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="left" unique_id=114573262]
+position = Vector2(-16.5, 38)
+shape = SubResource("RectangleShape2D_r3nmj")
+
+[node name="right" type="Area2D" parent="." unique_id=1300502627]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right" unique_id=364921600]
+position = Vector2(16, 38)
+shape = SubResource("RectangleShape2D_1x3kl")
+
+[connection signal="body_entered" from="left" to="." method="_on_left_body_entered"]
+[connection signal="body_exited" from="left" to="." method="_on_left_body_exited"]
+[connection signal="body_entered" from="right" to="." method="_on_right_body_entered"]
+[connection signal="body_exited" from="right" to="." method="_on_right_body_exited"]
